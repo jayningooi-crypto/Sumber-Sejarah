@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="broadsheet">
+  <title>Maklumat dan Bukti Sejarah: Modul Pembelajaran Interaktif KSSR</title>
+
+  <!-- Google Fonts for Broadsheet: Bitter, Source Serif 4, Source Sans 3 -->
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500..800;1,400..700&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons (Exact Pinned CDN) -->
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces */
+      --background: #f7f3eb;               /* warm ivory newsprint */
+      --surface-container-low: #efe8da;    /* deeper newsprint: secondary buttons, boxed aside */
+      --surface-container: #e6ddcc;        /* filled panel: form, interactive console */
+      --surface-container-high: #ddd2be;   /* hover on panels, selected item */
+
+      /* Ink */
+      --on-surface: #1a1817;               /* newsprint black: headlines and body */
+      --on-surface-variant: #4d4845;       /* grey ink: ledes, captions, bylines */
+
+      /* Rules */
+      --outline: #33302e;                  /* ink rules: section tops, input borders */
+      --outline-variant: #cdc3b2;          /* column hairlines, never text */
+
+      /* Accents */
+      --primary: #990f3d;                  /* claret: section labels, links, primary actions */
+      --on-primary: #ffffff;
+      --primary-container: #f4dce2;        /* pale claret wash */
+      --on-primary-container: #6b0a2a;
+      --secondary: #0d7680;                /* teal: bare tags, deltas */
+      --tertiary: #0f5499;                 /* oxford blue: third voice */
+      --error: #b3261e;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #990f3d;                   /* claret */
+      --data-2: #0d7680;                   /* teal */
+      --data-3: #0f5499;                   /* oxford blue */
+      --data-4: #9a6312;                   /* ochre */
+      --data-context: #bfb5a4;             /* context marks and gridlines */
+
+      /* Semantic */
+      --positive: #186b38;
+      --warning: #8c5300;
+      --focus: #990f3d;
+
+      /* Fonts */
+      --font-headline: 'Bitter', Georgia, serif;
+      --font-body: 'Source Serif 4', Georgia, serif;
+      --font-label: 'Source Sans 3', -apple-system, sans-serif;
+
+      /* Shape: strict broadsheet rectangular lines */
+      --rounded: 0px;
+      --rounded-lg: 0px;
+      --rounded-full: 0px;
+
+      /* Style effects */
+      --rule-masthead: 3px double var(--on-surface);
+      --rule-ink: 1px solid var(--on-surface);
+      --rule-section: 2px solid var(--outline);
+      --rule-column: 1px solid var(--outline-variant);
+
+      /* Narrative Type Scale */
+      --display-size: clamp(2.1rem, 1.3rem + 2.8vw, 3.5rem);
+      --headline-size: clamp(1.5rem, 1.15rem + 1.4vw, 2.2rem);
+      --subhead-size: clamp(1.15rem, 1.02rem + 0.5vw, 1.35rem);
+      --body-size: clamp(1.03rem, 0.98rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.72rem, 0.7rem + 0.12vw, 0.8rem);
+
+      /* Spacing Scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      font-optical-sizing: auto;
+    }
+
+    header { position: static !important; }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1180px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography Defaults */
+    h1 {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+      margin: 0 0 var(--space-sm) 0;
+      font-size: var(--display-size);
+      color: var(--on-surface);
+    }
+
+    h2 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      line-height: 1.15;
+      font-size: var(--headline-size);
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+
+    h3 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      line-height: 1.22;
+      font-size: var(--subhead-size);
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+
+    p {
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+      max-width: 72ch;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    .lede {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      color: var(--on-surface-variant);
+      max-width: 66ch;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Masthead Component */
+    .masthead-line {
+      border-bottom: var(--rule-masthead);
+      padding-bottom: var(--space-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    .masthead {
+      border-bottom: var(--rule-ink);
+      padding-block: var(--space-lg);
+    }
+
+    .masthead-meta {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: var(--rule-column);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Column Hairlines & Key Figures */
+    .columns {
+      display: flex;
+      gap: 0;
+      border-top: var(--rule-ink);
+      border-bottom: var(--rule-ink);
+      background: transparent;
+      margin: var(--space-md) 0;
+    }
+
+    .columns > * {
+      flex: 1;
+      border-left: var(--rule-column);
+      padding: var(--space-md) var(--space-lg);
+      background: transparent;
+    }
+
+    .columns > :first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    .figure-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+
+    .figure-value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 1;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--on-surface);
+      margin-bottom: var(--space-xs);
+    }
+
+    .figure-delta {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+    }
+
+    /* Section Styling */
+    .section-open {
+      border-top: var(--rule-section);
+      padding-top: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .section-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      margin-bottom: var(--space-xs);
+      display: block;
+    }
+
+    /* Bare Teal Tag */
+    .tag {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+      background: transparent;
+      padding: 0;
+      display: inline-block;
+    }
+
+    .tag-claret {
+      color: var(--primary);
+    }
+
+    /* Broadsheet Navigation Strip */
+    .nav-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: var(--rule-column);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-strip a {
+      color: var(--on-surface);
+      text-decoration: none;
+      padding: var(--space-xs) 0;
+      border-bottom: 2px solid transparent;
+      transition: color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .nav-strip a:hover,
+    .nav-strip a:focus-visible {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      outline: none;
+    }
+
+    /* Grid Layouts */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+
+    /* Broadsheet Content Panels: Separated by Rules */
+    .editorial-col {
+      border-left: var(--rule-column);
+      padding-left: var(--space-lg);
+    }
+
+    .editorial-col:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    /* Specific Filled Panel (Used Sparingly per Broadsheet rules) */
+    .archival-box {
+      background-color: var(--surface-container-low);
+      padding: var(--space-lg);
+      border: var(--rule-ink);
+    }
+
+    .archival-box-focus {
+      background-color: var(--surface-container);
+      padding: var(--space-lg);
+      border: var(--rule-ink);
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Buttons */
+    button, .btn {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: var(--rounded);
+      border: var(--rule-ink);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--on-primary-container);
+      border-color: var(--on-primary-container);
+    }
+
+    .btn-secondary {
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-container-high);
+    }
+
+    .btn-secondary.active {
+      background-color: var(--outline);
+      color: var(--background);
+    }
+
+    button:focus-visible, .btn:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Broadsheet Table */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: var(--space-md) 0;
+    }
+
+    table.broadsheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-top: var(--rule-ink);
+      border-bottom: var(--rule-ink);
+      font-size: 0.96rem;
+      text-align: left;
+    }
+
+    table.broadsheet-table th {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--rule-ink);
+      color: var(--on-surface);
+      background-color: transparent;
+    }
+
+    table.broadsheet-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--rule-column);
+      color: var(--on-surface);
+      vertical-align: top;
+    }
+
+    table.broadsheet-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Tab Controller */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-bottom: var(--rule-ink);
+      margin-bottom: var(--space-md);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: none;
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-color: var(--outline-variant);
+      border-top: 2px solid var(--primary);
+      background-color: var(--surface-container-low);
+    }
+
+    /* Accordion / Details */
+    details.archive-card {
+      border-top: var(--rule-column);
+      padding: var(--space-sm) 0;
+    }
+
+    details.archive-card:last-child {
+      border-bottom: var(--rule-column);
+    }
+
+    summary.archive-summary {
+      cursor: pointer;
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--on-surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-xs) 0;
+      list-style: none;
+    }
+
+    summary.archive-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary.archive-summary:hover {
+      color: var(--primary);
+    }
+
+    .summary-icon {
+      color: var(--primary);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    /* Interactive Steps */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: 0;
+      border-top: var(--rule-ink);
+      border-bottom: var(--rule-ink);
+      margin: var(--space-md) 0;
+    }
+
+    .step-box {
+      border-left: var(--rule-column);
+      padding: var(--space-md);
+      position: relative;
+    }
+
+    .step-box:first-child {
+      border-left: 0;
+    }
+
+    .step-num {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Lab Interactive Station */
+    .lab-container {
+      border: var(--rule-ink);
+      background-color: var(--surface-container-low);
+      padding: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .lab-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .lab-display {
+      background-color: var(--background);
+      border: var(--rule-ink);
+      padding: var(--space-lg);
+    }
+
+    /* Input & Search Fields */
+    .form-group {
+      margin-bottom: var(--space-md);
+    }
+
+    label.field-label {
+      display: block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-xs);
+      color: var(--on-surface);
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      border: var(--rule-ink);
+      background-color: var(--background);
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--on-surface);
+      border-radius: var(--rounded);
+    }
+
+    input[type="text"]:focus, select:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+      border-color: var(--primary);
+    }
+
+    /* Quiz Card */
+    .quiz-card {
+      border-top: var(--rule-column);
+      padding: var(--space-md) 0;
+    }
+
+    .quiz-question {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: var(--space-sm);
+      color: var(--on-surface);
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-sm);
+    }
+
+    .quiz-opt-btn {
+      text-align: left;
+      background-color: var(--background);
+      border: var(--rule-column);
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--on-surface);
+      justify-content: flex-start;
+      line-height: 1.4;
+    }
+
+    .quiz-opt-btn:hover {
+      background-color: var(--surface-container-low);
+      border-color: var(--outline);
+    }
+
+    .quiz-opt-btn.correct {
+      background-color: var(--surface-container);
+      border-left: 4px solid var(--positive);
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+
+    .quiz-opt-btn.incorrect {
+      background-color: var(--primary-container);
+      border-left: 4px solid var(--error);
+      color: var(--on-error-container, var(--on-surface));
+    }
+
+    .quiz-explanation {
+      background-color: var(--surface-container-low);
+      border-left: 3px solid var(--outline);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.95rem;
+      margin-top: var(--space-xs);
+      display: none;
+    }
+
+    /* Pull Quotes */
+    .pullquote {
+      font-family: var(--font-headline);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.35rem;
+      line-height: 1.4;
+      border-top: var(--rule-ink);
+      border-bottom: var(--rule-ink);
+      padding: var(--space-md) 0;
+      margin: var(--space-lg) 0;
+      color: var(--on-surface);
+    }
+
+    /* Footer & References */
+    .archive-footer {
+      border-top: var(--rule-section);
+      padding-top: var(--space-lg);
+      margin-top: var(--space-2xl);
+    }
+
+    .ref-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: var(--space-md) 0;
+    }
+
+    .ref-list li {
+      padding: var(--space-xs) 0;
+      border-bottom: var(--rule-column);
+      font-size: 0.95rem;
+    }
+
+    .ref-list li strong {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-right: var(--space-xs);
+    }
+
+    /* Accessibility Focus Ring */
+    a:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Responsive Adaptation */
+    @media (max-width: 860px) {
+      .grid-2col, .grid-3col {
+        grid-template-columns: 1fr;
+      }
+      .editorial-col {
+        border-left: 0;
+        padding-left: 0;
+        border-top: var(--rule-column);
+        padding-top: var(--space-md);
+      }
+      .columns {
+        flex-direction: column;
+      }
+      .columns > * {
+        border-left: 0;
+        border-top: var(--rule-column);
+        padding: var(--space-sm) 0;
+      }
+      .columns > :first-child {
+        border-top: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-sm);
+        gap: var(--space-lg);
+      }
+      h1 { font-size: 2.1rem; }
+      .figure-value { font-size: 1.5rem; }
+      .steps-row {
+        grid-template-columns: 1fr;
+      }
+      .step-box {
+        border-left: 0;
+        border-top: var(--rule-column);
+        padding: var(--space-sm) 0;
+      }
+      .step-box:first-child { border-top: 0; }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-grid">
+
+    <!-- HEADER & MASTHEAD -->
+    <header>
+      <div class="masthead-line">
+        <span>EDISI ARKIB & METODOLOGI PENYELIDIKAN SEJARAH</span>
+        <span>KSSR TAHUN 4 SEMAKAN • BAHAGIAN 1 HINGGA 3</span>
+      </div>
+
+      <div class="masthead">
+        <span class="tag tag-claret">MODUL PEMBELAJARAN LENGKAP</span>
+        <h1>Maklumat dan Bukti Sejarah: Menyelongkar Fakta, Menilai Kebenaran & Memelihara Warisan</h1>
+        <p class="lede">
+          Suatu eksplorasi mendalam berasaskan kurikulum Sejarah Tahun 4 Sekolah Kebangsaan serta piawaian metodologi penyelidikan sejarah antarabangsa. Memahami maksud sumber primer dan sekunder, tiga kaedah pembuktian sejarah, serta amanah memelihara warisan negara.
+        </p>
+
+        <!-- Hairline Ruled Columns: Core Figures -->
+        <div class="columns">
+          <div>
+            <div class="figure-label">Subtopik Utama</div>
+            <div class="figure-value">3 Bahagian</div>
+            <div class="figure-delta">Sumber • Kaedah • Pemeliharaan</div>
+          </div>
+          <div>
+            <div class="figure-label">Kategori Sumber</div>
+            <div class="figure-value">2 Jenis</div>
+            <div class="figure-delta">Primer & Sekunder</div>
+          </div>
+          <div>
+            <div class="figure-label">Kaedah Penyelidikan</div>
+            <div class="figure-value">3 Pendekatan</div>
+            <div class="figure-delta">Arkeologi • Lisan • Bertulis</div>
+          </div>
+          <div>
+            <div class="figure-label">Perundangan Warisan</div>
+            <div class="figure-value">Akta 645</div>
+            <div class="figure-delta">Akta Warisan Kebangsaan 2005</div>
+          </div>
+        </div>
+
+        <!-- Navigation Strip -->
+        <nav class="nav-strip" aria-label="Navigasi Bahagian">
+          <a href="#pengenalan">Pengenalan</a>
+          <a href="#subtopik1">1. Mengenal Pasti Sumber</a>
+          <a href="#subtopik2">2. Kaedah Penyelidikan</a>
+          <a href="#subtopik3">3. Kepentingan Pemeliharaan</a>
+          <a href="#makmal-sumber">Makmal Penyiasat</a>
+          <a href="#glosari">Glosari Istilah</a>
+          <a href="#soalan-ulangkaji">Kuiz & Ulang Kaji</a>
+          <a href="#rujukan">Senarai Rujukan</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- PENGENALAN -->
+    <section id="pengenalan" class="section-open">
+      <span class="section-label">Prakata Dokumen</span>
+      <h2>Hakikat Sejarah: Mengapa Bukti dan Sumber Menjadi Teras?</h2>
+      
+      <div class="grid-2col">
+        <div>
+          <p>
+            Sejarah bukan sekadar himpunan cerita dongeng atau khayalan lisan yang diturunkan tanpa usul periksa. Sejarah ialah disiplin ilmu yang mengkaji peristiwa yang benar-benar telah berlaku pada masa lampau. Untuk memahami sesuatu peristiwa secara objektif, ahli sejarah dan penyelidik memerlukan <strong>sumber dan bukti yang boleh diperiksa</strong>.
+          </p>
+          <p>
+            Sumber sejarah ialah sebarang bahan atau rekod yang meninggalkan jejak tentang kehidupan manusia, kejadian, tempat, serta evolusi tamadun masyarakat. Bukti sejarah bertindak sebagai saksi bisu yang membolehkan kita menjawab persoalan asas penyelidikan: <em>apa yang berlaku, bila dan di mana peristiwa tercetus, siapa yang terlibat, serta bagaimana kehidupan manusia berubah dari semasa ke semasa</em>.
+          </p>
+        </div>
+        <div class="editorial-col">
+          <div class="archival-box">
+            <h3 style="margin-top:0;">Prinsip Asas Arkivis</h3>
+            <p>
+              "Maklumat sejarah tidak seharusnya diterima secara terus tanpa penilaian kritis. Sumber mesti dianalisis, disemak ketulenannya, dan dibandingkan dengan bukti lain supaya kesimpulan yang dirumuskan benar-benar berpaksikan fakta sahih."
+            </p>
+            <div class="tag" style="margin-top: var(--space-xs);">Asas Metodologi Penyelidikan Sejarah</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTOPIK 1: MENGENAL PASTI SUMBER DALAM SEJARAH -->
+    <section id="subtopik1" class="section-open">
+      <span class="section-label">Subtopik 01 • Sukatan KSSR & Arkib</span>
+      <h2>Mengenal Pasti Sumber dalam Sejarah</h2>
+      <p class="lede">
+        Sumber sejarah memberikan maklumat tepat tentang peristiwa lampau dan terbahagi kepada dua kategori utama: <strong>Sumber Primer</strong> dan <strong>Sumber Sekunder</strong>.
+      </p>
+
+      <!-- Side-by-side: Sumber Primer vs Sumber Sekunder -->
+      <div class="grid-2col" style="margin-top: var(--space-md);">
+        <div>
+          <div style="border-bottom: var(--rule-ink); padding-bottom: var(--space-xs); margin-bottom: var(--space-sm);">
+            <span class="tag tag-claret">Bentuk Asal & Belum Diolah</span>
+            <h3 style="font-size: 1.45rem;">Sumber Primer (Sumber Pertama)</h3>
+          </div>
+          <p>
+            Sumber primer ialah bahan tinggalan asal yang dihasilkan pada masa peristiwa itu berlaku atau direkodkan oleh saksi utama yang mengalaminya sendiri. Sumber ini <strong>berada dalam bentuk asal dan belum melalui sebarang proses pengolahan atau tafsiran semula</strong> oleh pihak ketiga.
+          </p>
+
+          <h4 style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs) 0;">Empat Kategori Utama Sumber Primer:</h4>
+          
+          <details class="archive-card" open>
+            <summary class="archive-summary">
+              <span>1. Fosil</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Tinggalan tumbuhan atau organisma haiwan yang telah terawet dan membeku di dalam lapisan bumi selama ribuan atau jutaan tahun. Penyelidik menggunakannya untuk mengkaji evolusi organisma, iklim purba, dan persekitaran ekologi zaman lampau.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>2. Manuskrip Tulisan Tangan</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Dokumen atau karya sastera dan undang-undang yang disalin atau ditulis sepenuhnya dengan menggunakan tangan pada kertas purba atau daun lontar. Contoh naskhah masyhur di Alam Melayu termasuk <em>Hikayat Hang Tuah</em> dan <em>Sulalatus Salatin</em> (Sejarah Melayu), yang merakam pemikiran, adat istiadat, dan tatanan masyarakat Kesultanan Melayu Melaka.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>3. Artifak Kebudayaan</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Barang atau peralatan ciptaan tangan manusia yang dijumpai melalui ekskavasi arkeologi. Contohnya alat batu zaman Paleolitik/Neolitik, serpihan tembikar tanah, senjata tradisional seperti keris dan tombak, serta mata wang atau duit syiling logam kuno. Menggambarkan kemahiran teknologi, aktiviti perdagangan, dan seni kraf masyarakat dahulu.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>4. Dokumen Rasmi Kerajaan</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Warta, surat perjanjian politik, surat menyurat rasmi antara pembesar atau diplomat, dan rekod pentadbiran kerajaan. Digunakan untuk meneliti perihal hubungan diplomatik, perundangan, keputusan perjanjian sempadan, dan sejarah pentadbiran sesebuah negara.
+            </p>
+          </details>
+        </div>
+
+        <div class="editorial-col">
+          <div style="border-bottom: var(--rule-ink); padding-bottom: var(--space-xs); margin-bottom: var(--space-sm);">
+            <span class="tag">Tafsiran & Olahan Semula</span>
+            <h3 style="font-size: 1.45rem;">Sumber Sekunder (Sumber Kedua)</h3>
+          </div>
+          <p>
+            Sumber sekunder ialah <strong>penulisan atau penerbitan yang dihasilkan daripada sumber asal</strong>. Penulis, sejarawan, atau penyelidik menganalisis, mengumpulkan, menyusun, dan mentafsir fakta daripada pelbagai sumber primer untuk menghasilkan karya rujukan yang mudah difahami oleh khalayak ramai.
+          </p>
+
+          <h4 style="font-family: var(--font-headline); margin: var(--space-sm) 0 var(--space-xs) 0;">Empat Contoh Utama Sumber Sekunder:</h4>
+
+          <details class="archive-card" open>
+            <summary class="archive-summary">
+              <span>1. Buku Ilmiah & Teks Sejarah</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Menghimpunkan huraian terperinci, sintesis analisis, dan hasil kajian mendalam mengenai tokoh perjuangan, peristiwa kemerdekaan, atau kronologi tamadun purba.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>2. Majalah Berkala</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Menyampaikan artikel khusus, esei foto, serta dokumentasi kebudayaan dan peristiwa sejarah untuk pembacaan umum mahupun ilmiah.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>3. Risalah & Brosur Warisan</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Memberikan pengenalan ringkas dan padat tentang sesebuah muzium, monumen peringatan, tinggalan kota purba, atau tapak warisan bersejarah.
+            </p>
+          </details>
+
+          <details class="archive-card">
+            <summary class="archive-summary">
+              <span>4. Akhbar & Laporan Berita</span>
+              <span class="summary-icon">+</span>
+            </summary>
+            <p style="font-size: 0.95rem;">
+              Menyediakan laporan harian dan ulasan berita semasa. Membantu memahami bagaimana sesuatu peristiwa dilaporkan dan bagaimana masyarakat memberi reaksi pada era tersebut.
+            </p>
+          </details>
+
+          <!-- Nota Ketepatan Pengelasan -->
+          <div class="archival-box" style="margin-top: var(--space-md);">
+            <div class="figure-label">Nota Khas Pakar Rujukan</div>
+            <p style="font-size: 0.92rem; margin-bottom: 0;">
+              <strong>Bila Akhbar Menjadi Sumber Primer?</strong> Buku teks Tahun 4 menyenaraikan akhbar sebagai contoh lazim sumber sekunder kerana mengandungi ulasan berita. Namun, dalam metodologi penyelidikan lanjutan, jika seseorang mengkaji <em>"Reaksi media terhadap pengisytiharan Hari Kemerdekaan pada 31 Ogos 1957"</em>, edisi akhbar yang dicetak pada tarikh itu bertindak sebagai <strong>sumber primer</strong> kerana ia merupakan rekod sezaman yang dihasilkan oleh saksi ketika peristiwa berlangsung.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jadual Perbandingan Sumber -->
+      <div style="margin-top: var(--space-xl);">
+        <h3>Perbandingan Terperinci Sumber Primer dan Sumber Sekunder</h3>
+        <p>Jadual ini merumuskan perbezaan dari segi definisi fizikal, bentuk bahan, peranan ilmiah, dan lensa soalan penyelidikan.</p>
+        
+        <div class="table-container">
+          <table class="broadsheet-table">
+            <thead>
+              <tr>
+                <th style="width: 18%;">Aspek Penilaian</th>
+                <th style="width: 41%;">Sumber Primer (Pertama)</th>
+                <th style="width: 41%;">Sumber Sekunder (Kedua)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Maksud Asas</strong></td>
+                <td>Sumber pertama yang berada dalam keadaan asal, asli dan belum pernah diolah atau disunting.</td>
+                <td>Penulisan atau karya ilmiah yang dihasilkan berpandukan kajian ke atas sumber asal.</td>
+              </tr>
+              <tr>
+                <td><strong>Bentuk & Bahan</strong></td>
+                <td>Fosil terawet, manuskrip tulisan tangan, artifak ciptaan manusia, dan dokumen rasmi perjanjian.</td>
+                <td>Buku rujukan sejarah, artikel majalah, risalah tapak warisan, dan laporan akhbar.</td>
+              </tr>
+              <tr>
+                <td><strong>Fungsi Ilmiah</strong></td>
+                <td>Menyediakan bahan bukti asli dan saksi langsung peristiwa untuk dianalisis oleh penyelidik.</td>
+                <td>Menghuraikan, menyusun fakta, serta mentafsir makna peristiwa bagi memudahkan pemahaman umum.</td>
+              </tr>
+              <tr>
+                <td><strong>Contoh Soalan Kritikal</strong></td>
+                <td><em>"Apakah ciri fizikal artifak ini? Siapa yang menulis naskhah ini pada tarikh berkenaan?"</em></td>
+                <td><em>"Bagaimanakah sejarawan ini mentafsir bukti primer? Adakah huraian beliau disokong data kukuh?"</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Menilai Kesahihan dan Kerelevanan Sumber -->
+      <div style="margin-top: var(--space-xl);">
+        <h3>Penilaian Mutu Sumber: Kesahihan dan Kerelevanan</h3>
+        <p>
+          Bukan semua bahan yang dijumpai boleh terus dijadikan bukti. Ahli sejarah mesti membezakan antara <strong>kesahihan</strong> (kebolehpercayaan dan ketulenan) dan <strong>kerelevanan</strong> (kesesuaian dengan persoalan kajian).
+        </p>
+
+        <div class="grid-2col" style="margin-top: var(--space-md);">
+          <div class="archival-box">
+            <span class="figure-label">Teras A • Kebolehpercayaan</span>
+            <h4 style="font-family: var(--font-headline); margin: 0 0 var(--space-sm) 0;">Tujuh Cara Menilai Kesahihan Sumber</h4>
+            <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.95rem; display: grid; gap: var(--space-xs);">
+              <li><strong>Asal usul sumber:</strong> Meneliti lokasi penemuan sebenar artifak atau institusi arkib yang memeliharanya.</li>
+              <li><strong>Pencipta / Pengarang:</strong> Mengenal pasti latar belakang pencipta dan kaitannya dengan peristiwa.</li>
+              <li><strong>Tarikh & Konteks:</strong> Menyemak garis masa serta suasana politik atau sosial ketika sumber dicipta.</li>
+              <li><strong>Tujuan Penghasilan:</strong> Memahami sebab sumber didokumentasikan dan siapakah golongan sasaran.</li>
+              <li><strong>Ketulenan Fizikal:</strong> Menguji sama ada bahan tersebut asli, salinan kemudian, atau pemalsuan.</li>
+              <li><strong>Sokongan Bukti Lain:</strong> Membandingkan kandungannya dengan dokumen sezaman yang berasingan.</li>
+              <li><strong>Sudut Pandangan & Berat Sebelah:</strong> Mengesan sama ada teks mengandungi kepentingan propaganda atau prejudis.</li>
+            </ol>
+          </div>
+
+          <div class="editorial-col">
+            <span class="figure-label">Teras B • Kesesuaian Kajian</span>
+            <h4 style="font-family: var(--font-headline); margin: 0 0 var(--space-sm) 0;">Empat Syarat Kerelevanan Sumber</h4>
+            <ul style="padding-left: 1.2rem; margin: 0 0 var(--space-md) 0; font-size: 0.95rem; display: grid; gap: var(--space-xs);">
+              <li><strong>Kaitan Langsung:</strong> Sumber mesti berkait secara spesifik dengan topik atau isu yang diselidiki.</li>
+              <li><strong>Kesesuaian Ruang & Masa:</strong> Maklumat menepati tempoh zaman dan lokasi geografi yang disasarkan.</li>
+              <li><strong>Menjawab Persoalan Kajian:</strong> Kandungan sumber membantu merungkaikan hipotesis atau soalan siasatan.</li>
+              <li><strong>Kecukupan Bukti:</strong> Fakta di dalam sumber mencukupi untuk membina hujah yang mantap.</li>
+            </ul>
+
+            <div class="archival-box-focus">
+              <div class="figure-label">Panduan Soalan Semakan 5W1H (Library of Congress)</div>
+              <p style="font-size: 0.9rem; margin-bottom: 0;">
+                <em>"Siapakah yang menghasilkan sumber ini? Bilakah ia dihasilkan? Mengapakah ia dicipta? Apakah maklumat yang dapat dibuktikan secara nyata? Dan adakah keterangan ini disokong oleh sumber primer lain?"</em>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTOPIK 2: MENJELASKAN KAEDAH PENYELIDIKAN SEJARAH -->
+    <section id="subtopik2" class="section-open">
+      <span class="section-label">Subtopik 02 • Metodologi Penyelidikan</span>
+      <h2>Menjelaskan Tiga Kaedah Penyelidikan Sejarah</h2>
+      <p class="lede">
+        Penyelidikan sejarah dilaksanakan untuk membuktikan peristiwa lampau dengan sokongan fakta konkrit. Berdasarkan buku teks Tahun 4, terdapat <strong>tiga kaedah utama</strong>: Kaedah Arkeologi, Kaedah Lisan, dan Kaedah Bertulis.
+      </p>
+
+      <!-- Tab Controller for 3 Methods -->
+      <div style="margin-top: var(--space-md);">
+        <div class="tab-bar" role="tablist">
+          <button class="tab-btn active" id="tabBtn-arkeologi" onclick="switchMethodTab('arkeologi')" role="tab" aria-selected="true">
+            1. Kaedah Arkeologi (Gali Cari)
+          </button>
+          <button class="tab-btn" id="tabBtn-lisan" onclick="switchMethodTab('lisan')" role="tab" aria-selected="false">
+            2. Kaedah Lisan (Temu Bual)
+          </button>
+          <button class="tab-btn" id="tabBtn-bertulis" onclick="switchMethodTab('bertulis')" role="tab" aria-selected="false">
+            3. Kaedah Bertulis (Dokumentasi)
+          </button>
+        </div>
+
+        <!-- Panel 1: Arkeologi -->
+        <div id="methodPanel-arkeologi" class="method-panel" role="tabpanel">
+          <div class="grid-2col">
+            <div>
+              <span class="tag tag-claret">Tinggalan Kebudayaan Kebendaan</span>
+              <h3 style="margin-top: var(--space-xs);">Kaedah Arkeologi: Gali Cari & Ekskavasi</h3>
+              <p>
+                Kaedah arkeologi ialah proses saintifik untuk mendapatkan maklumat sejarah daripada bahan tinggalan fizikal manusia masa lalu melalui aktiviti <strong>gali cari atau ekskavasi</strong>. Bahan yang lazim ditemui merangkumi rangka tulang, fosil, tembikar tanah, barangan logam (besi dan gangsa), sisa peleburan, serta kulit siput.
+              </p>
+              
+              <h4 style="font-family: var(--font-headline); margin: var(--space-md) 0 var(--space-xs) 0;">Dua Cabang Utama Bidang Arkeologi:</h4>
+              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.95rem; display: grid; gap: var(--space-xs);">
+                <li>
+                  <strong>Arkeologi di Darat:</strong> Melibatkan tinjauan permukaan bumi, pemetaan grid tanah, dan penggalian lapisan stratigrafi di daratan (contoh: tapak purba gua batu kapur dan kompleks peleburan).
+                </li>
+                <li>
+                  <strong>Arkeologi Bawah Air / Maritim:</strong> Mengkaji tinggalan kapal karam, struktur jeti purba, atau petempatan yang ditenggelami air laut, tasik, atau dasar sungai menggunakan teknologi selaman saintifik.
+                </li>
+              </ul>
+            </div>
+
+            <div class="editorial-col">
+              <div class="archival-box">
+                <span class="figure-label">Contoh Tapak Arkeologi Terbilang di Malaysia</span>
+                
+                <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+                  <h4 style="margin: 0 0 var(--space-xs) 0; font-family: var(--font-headline);">Kompleks Sungai Batu, Lembah Bujang (Kedah)</h4>
+                  <p style="font-size: 0.92rem; margin: 0;">
+                    Kajian Universiti Sains Malaysia (USM) mendedahkan tapak tamadun terawal di Asia Tenggara seawal abad ke-8 Sebelum Masihi (SM). Penyelidik menemui struktur batu bata, relau peleburan besi purba, tuyere, bahan tuyere, sisa besi (slag), serta jeti purba yang membuktikan kepesatan industri dan perdagangan logam.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 style="margin: 0 0 var(--space-xs) 0; font-family: var(--font-headline);">Lembah Lenggong, Perak (Tapak Warisan Dunia UNESCO)</h4>
+                  <p style="font-size: 0.92rem; margin: 0;">
+                    Merekodkan penemuan rangka <em>Perak Man</em> yang lengkap berusia kira-kira 10,000 hingga 11,000 tahun di dalam Gua Gunung Runtuh. Mengandungi bengkel pembuatan alat batu zaman Paleolitik dan Neolitik yang diiktiraf di peringkat antarabangsa.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7 Langkah Penyelidikan Arkeologi -->
+          <div style="margin-top: var(--space-lg);">
+            <div class="figure-label">Tujuh Langkah Tertib Ekskavasi Arkeologi Saintifik</div>
+            <div class="steps-row">
+              <div class="step-box">
+                <div class="step-num">01</div>
+                <strong>Kenal Pasti Tapak</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Mengenal pasti kawasan berpotensi yang mengandungi tinggalan sejarah menerusi kajian awal atau laporan penemuan.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">02</div>
+                <strong>Tinjauan & Pemetaan</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Membuat peta grid, tinjauan geofizik, dan merakam keadaan asal tapak secara fotografik sebelum kerja gali bermula.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">03</div>
+                <strong>Ekskavasi Sistematik</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Menjalankan proses gali cari secara cermat menggunakan berus, kulir, dan jaring penapis bagi mengelak kerosakan artifak.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">04</div>
+                <strong>Rekod Stratigrafi</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Mencatat kedudukan tepat koordinat tiga dimensi dan lapisan tanah (stratigrafi) tempat setiap objek ditemui.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">05</div>
+                <strong>Kumpul & Label</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Membersihkan bahan mengikut prosedur konservasi, memberi nombor pendaftaran arkib, dan menyimpannya dalam bekas selamat.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">06</div>
+                <strong>Analisis Saintifik</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Menentukan tarikh usia bahan melalui pentarikhan radiokarbon-14, ujian pendarfluor sinar-X, atau termoluminesens.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">07</div>
+                <strong>Pentafsiran & Laporan</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Menggabungkan data penemuan untuk membina kesimpulan sejarah dan menerbitkan laporan rasmi penyelidikan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Lisan -->
+        <div id="methodPanel-lisan" class="method-panel" role="tabpanel" style="display: none;">
+          <div class="grid-2col">
+            <div>
+              <span class="tag tag-claret">Keterangan Saksi & Memori Lisan</span>
+              <h3 style="margin-top: var(--space-xs);">Kaedah Lisan: Menemu Bual Orang Sumber</h3>
+              <p>
+                Kaedah lisan ialah proses mendapatkan data sejarah secara langsung menerusi sesi temu bual bersama individu yang mempunyai pengetahuan mengenai sesuatu peristiwa. Individu yang ditemu bual dikenali sebagai <strong>orang sumber</strong>.
+              </p>
+              
+              <h4 style="font-family: var(--font-headline); margin: var(--space-md) 0 var(--space-xs) 0;">Kategori Orang Sumber (Mengikut Buku Teks):</h4>
+              <ol style="padding-left: 1.2rem; margin: 0; font-size: 0.95rem; display: grid; gap: var(--space-xs);">
+                <li><strong>Mereka yang terlibat secara langsung:</strong> Contohnya pejuang kemerdekaan, atlet negara, atau pemimpin persatuan.</li>
+                <li><strong>Mereka yang melihat peristiwa berlaku (saksi mata):</strong> Orang awam atau hadirin yang menyaksikan upacara atau kejadian sejarah.</li>
+                <li><strong>Mereka yang mendengar maklumat daripada orang lain:</strong> Pewaris tradisi, anak cucu tokoh, atau pencerita lisan tempatan.</li>
+              </ol>
+            </div>
+
+            <div class="editorial-col">
+              <div class="archival-box">
+                <span class="figure-label">Contoh Praktikal Penggunaan Kaedah Lisan</span>
+                <p style="font-size: 0.92rem;">
+                  Sekiranya murid ingin menyiasat <strong>sejarah penubuhan sekolah mereka</strong>:
+                </p>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.9rem; display: grid; gap: var(--space-xs);">
+                  <li>Menemu bual bekas guru besar terawal atau guru kanan yang telah lama berkhidmat.</li>
+                  <li>Menyoal tentang rupa bangunan asal sekolah, bilangan murid ketika mula dibuka, serta kenangan mencabar pada era tersebut.</li>
+                  <li>Mendapatkan persetujuan rasmi sebelum memulakan rakaman suara atau video.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Langkah Kaedah Lisan -->
+          <div style="margin-top: var(--space-lg);">
+            <div class="figure-label">Tiga Fasa Prosedur Kaedah Lisan</div>
+            <div class="steps-row">
+              <div class="step-box">
+                <div class="step-num">Langkah 1</div>
+                <strong>Kenal Pasti & Sedia Soalan</strong>
+                <p style="font-size: 0.9rem; margin-top: var(--space-xs);">
+                  Memilih individu yang benar-benar berwibawa dan mengetahui topik. Merangka senarai soalan yang jelas, berfokus, dan mematuhi objektif kajian.
+                </p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">Langkah 2</div>
+                <strong>Menemu Bual & Merakam</strong>
+                <p style="font-size: 0.9rem; margin-top: var(--space-xs);">
+                  Menjalankan sesi temu bual dengan santun, mendengar setiap penjelasan dengan teliti, dan merakam audio/video dengan kebenaran orang sumber.
+                </p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">Langkah 3</div>
+                <strong>Transkripsi & Arkib Data</strong>
+                <p style="font-size: 0.9rem; margin-top: var(--space-xs);">
+                  Menyalin percakapan ke dalam bentuk teks (transkripsi), menyemak ketepatan fakta, dan menyimpan rakaman serta transkrip secara sistematik.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="archival-box-focus" style="margin-top: var(--space-md);">
+            <div class="figure-label">Garis Panduan Etika & Ketepatan Kaedah Lisan</div>
+            <p style="font-size: 0.92rem; margin-bottom: 0;">
+              Penyelidik <strong>dilarang sama sekali mengubah maksud asal</strong> jawapan orang sumber semasa proses transkripsi. Oleh kerana ingatan manusia boleh pudar atau terhad, maklumat lisan perlu <strong>disemak silang (cross-check)</strong> dengan dokumen bertulis atau gambar foto sezaman.
+            </p>
+          </div>
+        </div>
+
+        <!-- Panel 3: Bertulis -->
+        <div id="methodPanel-bertulis" class="method-panel" role="tabpanel" style="display: none;">
+          <div class="grid-2col">
+            <div>
+              <span class="tag tag-claret">Aksara, Manuskrip & Catatan</span>
+              <h3 style="margin-top: var(--space-xs);">Kaedah Bertulis: Meneliti Tulisan & Lakaran</h3>
+              <p>
+                Kaedah bertulis ialah proses mendapatkan maklumat daripada bahan yang mengandungi tulisan, simbol aksara, atau lakaran visual. Menurut buku teks, maklumat bertulis boleh diperoleh daripada pelbagai medium seperti:
+              </p>
+              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.95rem; display: grid; gap: var(--space-xs);">
+                <li><strong>Dinding gua batu kapur:</strong> Contohnya lukisan orang asli prasejarah berwarna merah hematit di dinding Gua Tambun, Perak.</li>
+                <li><strong>Batu dan kepingan kayu:</strong> Prasasti berukir seperti Batu Bersurat Terengganu (1303 Masihi).</li>
+                <li><strong>Manuskrip tulisan tangan:</strong> Manuskrip klasik atas kertas Melayu atau daun palmyra.</li>
+                <li><strong>Bahan bercetak & dokumen rasmi:</strong> Warta pentadbiran kolonial, rekod perjanjian diplomatik, dan surat khabar lama.</li>
+              </ul>
+            </div>
+
+            <div class="editorial-col">
+              <div class="archival-box">
+                <span class="figure-label">Institusi Khazanah Bertulis</span>
+                <p style="font-size: 0.92rem;">
+                  Penyelidik bertulis lazimnya menghabiskan masa berhari-hari di institusi repositori rasmi seperti:
+                </p>
+                <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.9rem; display: grid; gap: var(--space-xs);">
+                  <li><strong>Arkib Negara Malaysia:</strong> Pusat penyimpanan dokumen perjanjian, surat rasmi, dan rekod persekutuan.</li>
+                  <li><strong>Perpustakaan Negara Malaysia:</strong> Pusat manuskrip Melayu dan bahan terbitan bersiri lama.</li>
+                  <li><strong>Jabatan Muzium Malaysia:</strong> Memelihara batu bersurat, inskripsi tembaga, dan rekod arkeologi.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Langkah Kaedah Bertulis -->
+          <div style="margin-top: var(--space-lg);">
+            <div class="figure-label">Empat Langkah Sistematik Kaedah Bertulis</div>
+            <div class="steps-row">
+              <div class="step-box">
+                <div class="step-num">Fasa 1</div>
+                <strong>Kenal Pasti Sumber</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Menentukan skop tajuk kajian dan memilih dokumen atau naskhah tulisan yang sahih dan berpadanan.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">Fasa 2</div>
+                <strong>Kumpul & Akses Bahan</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Memperoleh teks daripada arkib, bilik manuskrip perpustakaan, atau pangkalan data digital rasmi.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">Fasa 3</div>
+                <strong>Tafsir Maklumat Teks</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Membaca, menterjemah bahasa atau tulisan jawi kuno, meneliti tarikh, nama tokoh, dan membandingkannya dengan bukti lain.</p>
+              </div>
+              <div class="step-box">
+                <div class="step-num">Fasa 4</div>
+                <strong>Sintesis & Penulisan</strong>
+                <p style="font-size: 0.88rem; margin-top: var(--space-xs);">Menyusun fakta secara kronologi, membina hujah berlandaskan bukti, dan mencatatkan senarai sumber rujukan lengkap.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jadual Perbandingan 3 Kaedah -->
+      <div style="margin-top: var(--space-xl);">
+        <h3>Matriks Perbandingan Tiga Kaedah Penyelidikan Sejarah</h3>
+        <div class="table-container">
+          <table class="broadsheet-table">
+            <thead>
+              <tr>
+                <th style="width: 15%;">Aspek</th>
+                <th style="width: 28%;">Kaedah Arkeologi</th>
+                <th style="width: 28%;">Kaedah Lisan</th>
+                <th style="width: 29%;">Kaedah Bertulis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cara Dapatkan Data</strong></td>
+                <td>Gali cari (ekskavasi), pemerhatian tapak, dan pentarikhan saintifik.</td>
+                <td>Sesi temu bual secara bersemuka bersama orang sumber.</td>
+                <td>Membaca, menyalin, dan menganalisis teks, lakaran, atau manuskrip.</td>
+              </tr>
+              <tr>
+                <td><strong>Bahan Utama</strong></td>
+                <td>Fosil, rangka tulang, tembikar, barangan logam, relau, dan kulit siput.</td>
+                <td>Ingatan minda, pengalaman peribadi, dan keterangan lisan saksi.</td>
+                <td>Manuskrip, batu bersurat, lukisan gua, warta rasmi, dan akhbar bercetak.</td>
+              </tr>
+              <tr>
+                <td><strong>Contoh di Malaysia</strong></td>
+                <td>Sungai Batu (Kedah) dan Lembah Lenggong (Perak).</td>
+                <td>Temu bual veteran pejuang kemerdekaan atau bekas guru besar sekolah.</td>
+                <td>Kajian manuskrip <em>Sulalatus Salatin</em> dan dokumen Perjanjian Pangkor.</td>
+              </tr>
+              <tr>
+                <td><strong>Bentuk Hasil Kajian</strong></td>
+                <td>Laporan stratigrafi tapak dan penentuan kronologi artifak.</td>
+                <td>Rakaman audio/video, transkripsi catatan, dan fail sejarah lisan.</td>
+                <td>Tafsiran naskhah, penulisan monograf, dan penerbitan buku ilmiah.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Simulator Pemilihan Kaedah Interaktif -->
+      <div style="margin-top: var(--space-xl);" class="archival-box">
+        <span class="figure-label">Simulator Pemilihan & Penggabungan Kaedah Kajian</span>
+        <h3 style="margin-top: var(--space-xs);">Uji Padanan Kaedah Mengikut Persoalan Kajian</h3>
+        <p style="font-size: 0.95rem;">
+          Seorang sejarawan yang bijak tidak terhad kepada satu kaedah sahaja. Kaedah dipilih berdasarkan jenis bukti yang masih wujud. Pilih mana-mana senario persoalan di bawah untuk melihat strategi gabungan penyelidikan:
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs); margin: var(--space-sm) 0 var(--space-md) 0;">
+          <button class="btn btn-secondary active" id="scenarioBtn-1" onclick="showScenario(1)">Senario 1: Zaman Prasejarah</button>
+          <button class="btn btn-secondary" id="scenarioBtn-2" onclick="showScenario(2)">Senario 2: Sejarah Sekolah</button>
+          <button class="btn btn-secondary" id="scenarioBtn-3" onclick="showScenario(3)">Senario 3: Peristiwa Kemerdekaan</button>
+          <button class="btn btn-secondary" id="scenarioBtn-4" onclick="showScenario(4)">Senario 4: Kerajaan Awal Melayu</button>
+        </div>
+
+        <div id="scenarioResult" class="archival-box-focus" style="background-color: var(--background);">
+          <!-- Dynamic Scenario Content Loaded via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBTOPIK 3: MENGHURAI KEPENTINGAN MEMELIHARA SUMBER SEJARAH -->
+    <section id="subtopik3" class="section-open">
+      <span class="section-label">Subtopik 03 • Amanah Generasi</span>
+      <h2>Menghurai Kepentingan Memelihara Sumber Sejarah</h2>
+      <p class="lede">
+        Memelihara sumber sejarah bermaksud menjaga, melindungi, dan mengekalkan bahan atau rekod tinggalan sejarah supaya tidak rosak, lenyap, atau musnah. Usaha ini melibatkan warisan ketara (dokumen, bangunan, artifak) mahupun warisan tidak ketara (bahasa, adat, dan tradisi).
+      </p>
+
+      <!-- 7 Kepentingan Pemeliharaan -->
+      <div style="margin-top: var(--space-md);">
+        <h3>Tujuh Kepentingan Pokok Pemeliharaan Sumber</h3>
+        <p>Berdasarkan panduan Arkib Negara Malaysia, Akta Warisan Kebangsaan 2005, serta program Memori Dunia UNESCO:</p>
+
+        <div class="grid-2col" style="margin-top: var(--space-md);">
+          <div>
+            <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+              <span class="tag tag-claret">Kepentingan 1</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Mengekalkan Bukti Sejarah yang Sahih</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Bahan asal yang tersimpan rapi membolehkan penyelidik memeriksa ketulenan fakta peristiwa. Jika manuskrip atau artifak asal rosak atau musnah terbakar, usaha mengesahkan kebenaran sesuatu peristiwa lampau akan menjadi sukar atau mustahil.
+              </p>
+            </div>
+
+            <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+              <span class="tag tag-claret">Kepentingan 2</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Bahan Rujukan Penyelidikan Masa Hadapan</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Arkib dan muzium menyimpan rekod yang sentiasa bersedia untuk dirujuk oleh penyelidik generasi baharu. Kemajuan teknologi pada masa hadapan membolehkan analisis baharu dilakukan ke atas bukti lama yang dipelihara.
+              </p>
+            </div>
+
+            <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+              <span class="tag tag-claret">Kepentingan 3</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Mengekalkan Jati Diri & Identiti Bangsa</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Sumber sejarah memperlihatkan asal usul, akar tradisi, perpaduan, dan evolusi masyarakat berbilang kaum di Malaysia. Warisan ini menyemarakkan rasa bangga dan cinta akan tanah air.
+              </p>
+            </div>
+
+            <div>
+              <span class="tag tag-claret">Kepentingan 4</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Menjadi Wahana Pendidikan Murid</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Melihat bukti fizikal secara langsung seperti artifak di muzium atau salinan watikah proklamasi memberi impak pembelajaran yang jauh lebih hidup berbanding sekadar membaca ayat teks.
+              </p>
+            </div>
+          </div>
+
+          <div class="editorial-col">
+            <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+              <span class="tag tag-claret">Kepentingan 5</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Mengelakkan Kehilangan & Kerosakan Alam / Manusia</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Kertas purba dan logam mudah rapuh akibat kelembapan tinggi, habuk, anai-anai, kulat, suhu melampau, bencana banjir, serta perbuatan vandalisme. Kawalan pemeliharaan saintifik memanjangkan jangka hayat sumber.
+              </p>
+            </div>
+
+            <div style="border-bottom: var(--rule-column); padding-bottom: var(--space-sm); margin-bottom: var(--space-sm);">
+              <span class="tag tag-claret">Kepentingan 6</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Mewariskan Ilmu & Pengalaman Silam</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Catatan sejarah menyimpan kebijaksanaan, kesilapan lampau, dan penyelesaian nenek moyang dalam mengharungi cabaran hidup, yang menjadi iktibar membina masa depan negara yang lebih kukuh.
+              </p>
+            </div>
+
+            <div>
+              <span class="tag tag-claret">Kepentingan 7</span>
+              <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Menyokong Pelancongan Warisan Lestari</h4>
+              <p style="font-size: 0.94rem; margin: 0;">
+                Tapak arkeologi dan muzium menarik kedatangan pelancong tempatan serta antarabangsa. Ini merangsang kegiatan ekonomi komuniti setempat melalui perkhidmatan pemandu pelancong, perhotelan, dan kraftangan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Langkah Pemeliharaan Sumber Sejarah -->
+      <div style="margin-top: var(--space-xl);">
+        <h3>Lima Langkah Praktikal Memelihara Sumber Sejarah</h3>
+        <p>Langkah bersepadu yang digariskan oleh Arkib Negara Malaysia dan undang-undang kebangsaan:</p>
+
+        <div class="grid-3col" style="margin-top: var(--space-md);">
+          <div class="archival-box">
+            <span class="tag">Langkah 01</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Penyimpanan Terkawal</h4>
+            <p style="font-size: 0.9rem;">
+              Menyimpan dokumen dan manuskrip di dalam bilik bersuhu stabil (18°C–22°C), kelembapan bandingan terkawal (50%–60%), terlindung daripada pancaran matahari terus, serta menggunakan kotak bebas asid (acid-free boxes).
+            </p>
+          </div>
+
+          <div class="archival-box">
+            <span class="tag">Langkah 02</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Pemuliharaan Berkepakaran</h4>
+            <p style="font-size: 0.9rem;">
+              Kerja-kerja konservasi bahan rapuh mesti diserahkan kepada jurupulih mahir. Melibatkan proses pembersihan debu, deasidifikasi bagi meneutralkan asid kertas, serta teknik mending (menampal koyakan halus).
+            </p>
+          </div>
+
+          <div class="archival-box">
+            <span class="tag">Langkah 03</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Pendigitalan Pintar</h4>
+            <p style="font-size: 0.9rem;">
+              Mengimbas rekod dan merakam dalam resolusi tinggi untuk tatapan umum dalam talian. Mengurangkan sentuhan langsung ke atas bahan asal. <em>Peringatan: Pendigitalan BUKAN alasan melupuskan bahan asal!</em>
+            </p>
+          </div>
+
+          <div class="archival-box">
+            <span class="tag">Langkah 04</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Perlindungan Perundangan</h4>
+            <p style="font-size: 0.9rem;">
+              Menguatkuasakan Akta Warisan Kebangsaan 2005 (Akta 645) bagi mewartakan tapak bersejarah dan artifak kebangsaan. Sebarang pencerobohan atau penggalian tanpa lesen boleh didakwa di bawah undang-undang.
+            </p>
+          </div>
+
+          <div class="archival-box">
+            <span class="tag">Langkah 05</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">Pendidikan Sivik Komuniti</h4>
+            <p style="font-size: 0.9rem;">
+              Memupuk kesedaran menghargai warisan sejak di bangku sekolah rendah. Mengelakkan tabiat vandalisme seperti menconteng dinding tugu, dan melaporkan segera sebarang penemuan artifak baharu kepada pihak berkuasa.
+            </p>
+          </div>
+
+          <div class="archival-box" style="background-color: var(--surface-container);">
+            <span class="tag tag-claret">Kerjasama Antarabangsa</span>
+            <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline);">UNESCO Memory of the World</h4>
+            <p style="font-size: 0.9rem;">
+              Program Memori Dunia yang diasaskan oleh UNESCO pada 1992 bertujuan memelihara warisan dokumentari penting dunia serta memperluas akses awam terhadap rekod peradaban manusia sejagat.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peranan Institusi & Masyarakat -->
+      <div style="margin-top: var(--space-xl);">
+        <h3>Sinergi Peranan Institusi dan Tanggungjawab Masyarakat</h3>
+        <div class="table-container">
+          <table class="broadsheet-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Pihak Bertanggungjawab</th>
+                <th style="width: 75%;">Peranan Khusus dalam Pemeliharaan Sumber Sejarah</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Kerajaan Persekutuan</strong></td>
+                <td>Menggubal dasar perundangan, menyediakan peruntukan dana pemuliharaan, serta menjalin kerjasama arkeologi serantau dan antarabangsa.</td>
+              </tr>
+              <tr>
+                <td><strong>Arkib Negara Malaysia</strong></td>
+                <td>Pusat rasmi penyimpanan rekod kerajaan, pemuliharaan dokumen kertas, manuskrip bersejarah, serta pelaksanaan arkib pendigitalan negara.</td>
+              </tr>
+              <tr>
+                <td><strong>Jabatan Warisan Negara</strong></td>
+                <td>Mendaftarkan tapak warisan dalam Daftar Warisan Kebangsaan, menguatkuasakan Akta 645, dan menyelia zon pemuliharaan monumen purba.</td>
+              </tr>
+              <tr>
+                <td><strong>Jabatan Muzium Malaysia</strong></td>
+                <td>Mengumpul, memelihara secara saintifik, mendokumentasi, dan mempamerkan artifak sejarah untuk tatapan dan pendidikan masyarakat.</td>
+              </tr>
+              <tr>
+                <td><strong>Sekolah & Guru</strong></td>
+                <td>Menerapkan minat mengkaji bukti sejarah, menganjurkan lawatan sambil belajar ke muzium, serta mendidik etika cermat menghargai warisan.</td>
+              </tr>
+              <tr>
+                <td><strong>Masyarakat Umum</strong></td>
+                <td>Menjaga kebersihan tapak sejarah, tidak merosakkan atau menconteng monumen, serta melaporkan segera sebarang penemuan objek kuno kepada pejabat daerah atau muzium.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAKMAL INTERAKTIF: PENYIASAT SUMBER ARKIB -->
+    <section id="makmal-sumber" class="section-open">
+      <span class="section-label">Aktiviti Amali Interaktif</span>
+      <h2>Makmal Penyiasat Sumber Sejarah</h2>
+      <p class="lede">
+        Uji kemahiran anda sebagai seorang pembantu penyelidik sejarah. Pilih salah satu daripada 6 artifak atau sumber sejarah di bawah, periksa maklumat arkibnya, dan uji keupayaan anda mengelaskan jenis sumber serta kaedah kajian yang bertepatan!
+      </p>
+
+      <div class="lab-container">
+        <!-- Artifact Selector Buttons -->
+        <div class="figure-label">Pilih Bahan Kajian Arkib:</div>
+        <div class="lab-controls">
+          <button class="btn btn-secondary active" id="artBtn-1" onclick="selectArtifact(1)">01. Manuskrip Melayu</button>
+          <button class="btn btn-secondary" id="artBtn-2" onclick="selectArtifact(2)">02. Rangka Perak Man</button>
+          <button class="btn btn-secondary" id="artBtn-3" onclick="selectArtifact(3)">03. Audio Wawancara Pejuang</button>
+          <button class="btn btn-secondary" id="artBtn-4" onclick="selectArtifact(4)">04. Perjanjian Pangkor 1874</button>
+          <button class="btn btn-secondary" id="artBtn-5" onclick="selectArtifact(5)">05. Lukisan Gua Tambun</button>
+          <button class="btn btn-secondary" id="artBtn-6" onclick="selectArtifact(6)">06. Buku Ensiklopedia Sejarah</button>
+        </div>
+
+        <!-- Selected Artifact Viewer -->
+        <div class="lab-display" id="artifactDetailsView">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSARI ISTILAH SEJARAH -->
+    <section id="glosari" class="section-open">
+      <span class="section-label">Rujukan Leksikon Arkib</span>
+      <h2>Glosari Istilah Sejarah KSSR</h2>
+      <p class="lede">
+        Senarai istilah teras yang terkandung di dalam sukatan Sejarah Tahun 4 berserta huraian rasmi untuk memudahkan ulang kaji pantas.
+      </p>
+
+      <!-- Search & Filter Controls -->
+      <div class="archival-box" style="margin-bottom: var(--space-md);">
+        <div class="grid-2col" style="align-items: center;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="field-label" for="glossarySearch">Carian Pantas Istilah:</label>
+            <input type="text" id="glossarySearch" placeholder="Taip nama istilah (contoh: artifak, ekskavasi)..." oninput="filterGlossary()">
+          </div>
+          <div>
+            <span class="field-label">Penapis Kategori:</span>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">
+              <button class="btn btn-secondary active" id="catBtn-semua" onclick="filterGlossaryCategory('semua')">Semua</button>
+              <button class="btn btn-secondary" id="catBtn-sumber" onclick="filterGlossaryCategory('sumber')">Sumber</button>
+              <button class="btn btn-secondary" id="catBtn-kaedah" onclick="filterGlossaryCategory('kaedah')">Kaedah</button>
+              <button class="btn btn-secondary" id="catBtn-pemeliharaan" onclick="filterGlossaryCategory('pemeliharaan')">Pemeliharaan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glossary Table -->
+      <div class="table-container">
+        <table class="broadsheet-table" id="glossaryTable">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Istilah Utama</th>
+              <th style="width: 15%;">Kategori</th>
+              <th style="width: 60%;">Takrifan & Huraian Mengikut Sukatan</th>
+            </tr>
+          </thead>
+          <tbody id="glossaryTbody">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SOALAN ULANG KAJI & KUIZ -->
+    <section id="soalan-ulangkaji" class="section-open">
+      <span class="section-label">Ujian Kefahaman & Ulang Kaji</span>
+      <h2>Soalan Ulang Kaji & Kuiz Pengukuhan</h2>
+      <p class="lede">
+        Uji tahap pemahaman anda dengan menjawab 10 soalan ulang kaji berpandukan nota pembelajaran. Anda boleh mencuba kuiz interaktif berserta skor automatik atau meneliti lembaran skema jawapan rasmi.
+      </p>
+
+      <!-- Mode Selector -->
+      <div style="display: flex; gap: var(--space-xs); margin-bottom: var(--space-md);">
+        <button class="btn btn-primary" id="btnModeQuiz" onclick="setEvaluationMode('quiz')">
+          Mod Kuiz Interaktif (Pilihan Jawapan)
+        </button>
+        <button class="btn btn-secondary" id="btnModeScheme" onclick="setEvaluationMode('scheme')">
+          Mod Skema Jawapan Rasmi (10 Soalan Nota)
+        </button>
+      </div>
+
+      <!-- Quiz Interactive Mode -->
+      <div id="quizContainerView">
+        <div class="archival-box" style="margin-bottom: var(--space-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm);">
+          <div>
+            <div class="figure-label">Prestasi Kuiz Semasa:</div>
+            <div style="font-family: var(--font-headline); font-size: 1.4rem; font-weight: 700;">
+              Skor: <span id="quizScoreText">0</span> / 10 Soalan
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="resetQuiz()">Ulang Semula Kuiz</button>
+        </div>
+
+        <div id="quizQuestionsList">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Reference Scheme Mode (Initially Hidden) -->
+      <div id="schemeContainerView" style="display: none;">
+        <div class="archival-box-focus" style="margin-bottom: var(--space-md);">
+          <div class="figure-label">Skema Jawapan Rujukan Guru (Buku Teks Tahun 4)</div>
+          <p style="font-size: 0.95rem; margin-bottom: 0;">
+            Berikut merupakan cadangan jawapan ringkas bagi 10 soalan ulang kaji yang dimuatkan dalam nota rasmi. Tekan pada setiap kad soalan untuk menyemak isi jawapan yang tepat.
+          </p>
+        </div>
+
+        <div id="schemeCardsList">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SENARAI RUJUKAN & PENUTUP -->
+    <footer class="archive-footer" id="rujukan">
+      <div class="grid-2col">
+        <div>
+          <span class="section-label">Dokumentasi Ilmiah</span>
+          <h3>Senarai Rujukan & Sumber Autoriti</h3>
+          <p style="font-size: 0.95rem;">
+            Modul ini dibangunkan berpandukan sumber rasmi Kementerian Pendidikan Malaysia serta diperluaskan dengan rujukan metodologi antarabangsa dan perundangan warisan negara:
+          </p>
+          <ul class="ref-list">
+            <li>
+              <strong>[Rujukan 1]</strong> Kementerian Pendidikan Malaysia. <em>Buku Teks Sejarah Tahun 4 Sekolah Kebangsaan (KSSR Semakan 2017)</em>, halaman bercetak 6–9.
+            </li>
+            <li>
+              <strong>[Rujukan 2]</strong> Library of Congress. <em>Getting Started with Primary Sources</em>: Garis panduan analisis pencipta, tujuan, khalayak dan kesahihan bukti.
+            </li>
+            <li>
+              <strong>[Rujukan 3]</strong> Aminuddin, S. A. (2015). <em>Kajian Arkeologi di Tapak SB1M dan SB1N, Kompleks Sungai Batu, Lembah Bujang, Kedah</em>. Repositori Universiti Sains Malaysia.
+            </li>
+            <li>
+              <strong>[Rujukan 4]</strong> UNESCO World Heritage Centre. <em>Archaeological Heritage of the Lenggong Valley</em> (Tapak Warisan Dunia Warisan Arkeologi Lembah Lenggong).
+            </li>
+            <li>
+              <strong>[Rujukan 5]</strong> Arkib Negara Malaysia. (2019). <em>Panduan Pemuliharaan Bahan Arkib (Dokumen)</em>.
+            </li>
+            <li>
+              <strong>[Rujukan 6]</strong> Arkib Negara Malaysia. <em>Seksyen Arkib Digital</em>: Fungsi pemeliharaan digital dan format pendigitalan bahan arkib.
+            </li>
+            <li>
+              <strong>[Rujukan 7]</strong> Jabatan Warisan Negara. <em>Akta Warisan Kebangsaan 2005 (Akta 645)</em>: Kerangka perundangan pemuliharaan warisan di Malaysia.
+            </li>
+            <li>
+              <strong>[Rujukan 8]</strong> UNESCO. (1992/2026). <em>Memory of the World: About the Programme</em> (Warisan Dokumentari Sejagat).
+            </li>
+          </ul>
+        </div>
+
+        <div class="editorial-col">
+          <span class="section-label">Iktibar & Rumusan Akhir</span>
+          <div class="pullquote">
+            "Sumber sejarah yang dinilai dengan teliti dan dipelihara dengan cermat bukan sekadar membuktikan masa lampau kita, malah memelihara maruah bangsa serta mewariskan obor kebijaksanaan kepada generasi masa depan."
+          </div>
+          <div class="archival-box">
+            <div class="figure-label">Prinsip Arkivis Muda</div>
+            <p style="font-size: 0.92rem; margin-bottom: var(--space-xs);">
+              Setiap rakyat memikul amanah menjadi penjaga warisan. Sentiasa semak kesahihan maklumat, hargai bangunan bersejarah, dan jangan biarkan kejahilan memadamkan tinggalan tamadun nenek moyang kita.
+            </p>
+            <span class="tag">Hak Cipta Pendidikan • Sejarah Kebangsaan</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- State persistence shim placeholder as required by spec -->
+  <api-shim></api-shim>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State persistence helper and app data
+    const AppData = {
+      activeTab: 'arkeologi',
+      activeScenario: 1,
+      activeArtifact: 1,
+      glossaryFilter: 'semua',
+      glossaryQuery: '',
+      evalMode: 'quiz',
+      quizAnswers: {},
+      quizScore: 0
+    };
+
+    // 1. SCENARIOS DATA (Simulator Kaedah)
+    const scenariosData = [
+      {
+        id: 1,
+        title: "Bagaimanakah corak kehidupan dan teknologi masyarakat Zaman Prasejarah di Tanah Melayu?",
+        method: "Kaedah Arkeologi (Ekskavasi & Analisis Tinggalan Fizikal)",
+        sources: "Alat batu serpihan dan kapak genggam, rangka manusia (Perak Man), sisa tulang haiwan buruan, kulit siput, dan lukisan dinding gua (Gua Tambun).",
+        explanation: "Zaman prasejarah belum mempunyai sistem tulisan dan tiada orang sumber yang masih hidup. Oleh itu, hanya kaedah arkeologi saintifik (gali cari dan pentarikhan radiokarbon) yang mampu merungkaikan teknologi dan cara hidup manusia era berkenaan."
+      },
+      {
+        id: 2,
+        title: "Bagaimanakah sejarah penubuhan dan perkembangan awal Sekolah Kebangsaan saya?",
+        method: "Gabungan Kaedah Lisan dan Kaedah Bertulis",
+        sources: "Temu bual bersama bekas guru besar, guru perintis, alumni sekolah, serta penelitian buku pendaftaran murid lama, minit mesyuarat PIBG, dan album foto arkib sekolah.",
+        explanation: "Sekolah wujud dalam garis masa moden. Kaedah lisan merekodkan pengalaman hidup orang sumber, manakala kaedah bertulis (buku rekod sekolah) mengesahkan tarikh pembukaan rasmi dan senarai nama murid terawal."
+      },
+      {
+        id: 3,
+        title: "Apakah rentetan peristiwa dan reaksi rakyat semasa Pengisytiharan Kemerdekaan 1957?",
+        method: "Gabungan Kaedah Bertulis dan Kaedah Lisan",
+        sources: "Warta rasmi kerajaan, dokumen Proklamasi Kemerdekaan, laporan akhbar sezaman (contohnya Utusan Melayu dan The Straits Times 31 Ogos 1957), pita rakaman audio siaran langsung RTM, dan keterangan saksi yang berada di Stadium Merdeka.",
+        explanation: "Dokumen bertulis menyediakan fakta tarikh dan teks proklamasi yang tepat, manakala temubual lisan atau rakaman audio menyuntik dimensi emosi dan sorakan kegembiraan rakyat yang hadir."
+      },
+      {
+        id: 4,
+        title: "Sejauh manakah kepesatan perdagangan maritim dan industri di Lembah Bujang purba?",
+        method: "Gabungan Kaedah Arkeologi dan Kaedah Bertulis",
+        sources: "Ekskavasi relau peleburan besi, bata candi, dan seramik di tapak Sungai Batu; disemak silang dengan catatan pelayaran pedagang India (buku perkapalan purba) dan rekod sami China (I-Tsing).",
+        explanation: "Artifak fizikal membuktikan aktiviti industri peleburan besi secara saintifik, manakala catatan bertulis pedagang asing mengesahkan nama pelabuhan antarabangsa Lembah Bujang dalam peta perdagangan dunia purba."
+      }
+    ];
+
+    // 2. ARTIFACTS DATA (Makmal Analisis Arkib)
+    const artifactsData = [
+      {
+        id: 1,
+        title: "Naskhah Manuskrip Sulalatus Salatin (Sejarah Melayu)",
+        date: "Kurun ke-16 / ke-17 Masihi",
+        found: "Koleksi Arkib Diraja / Perpustakaan Negara",
+        description: "Naskhah tulisan tangan aksara Jawi yang mencatatkan salsilah raja-raja Melayu, sistem pentadbiran adat beraja, dan peristiwa kegemilangan Kesultanan Melayu Melaka.",
+        correctType: "primer",
+        correctMethod: "bertulis",
+        typeExplanation: "Merupakan teks tulisan tangan asal dari era kesultanan tradisional dan belum diolah oleh penulis moden.",
+        methodExplanation: "Kajian dilakukan dengan kaedah bertulis melalui analisis teks, filologi, gaya bahasa, dan konteks pensejarahan.",
+        questionCheck: "Siapakah penyalin naskhah ini dan apakah tujuan asal naskhah ini dipersembahkan kepada istana Melaka?"
+      },
+      {
+        id: 2,
+        title: "Rangka Perak Man (Lembah Lenggong)",
+        date: "Kira-kira 10,000 – 11,000 Tahun Lalu",
+        found: "Gua Gunung Runtuh, Lenggong, Perak",
+        description: "Rangka manusia prasejarah yang ditemui dalam posisi foetal (meringkuk) lengkap dengan perhiasan kulit siput sungai dan alat batu di sekelilingnya.",
+        correctType: "primer",
+        correctMethod: "arkeologi",
+        typeExplanation: "Tinggalan rangka biologi asal manusia prasejarah yang kekal terawet dalam gua kapur.",
+        methodExplanation: "Ditemui melalui kaedah ekskavasi gali cari arkeologi dan ditentukan usianya dengan kaedah saintifik radiokarbon.",
+        questionCheck: "Apakah jenis penyakit genetik (brachymesophalangia) yang dikesan pada rangka ini dan apakah upacara pengebumian yang diamalkan?"
+      },
+      {
+        id: 3,
+        title: "Rakaman Audio Wawancara Veteran Rejimen Askar Melayu DiRaja",
+        date: "Peristiwa 1942 – 1957 (Dirakam pada 1985)",
+        found: "Koleksi Arkib Suara Arkib Negara Malaysia",
+        description: "Pita rakaman suara pengakuan seorang bekas perajurit yang berkongsi pengalaman peribadi mempertahankan tanah air daripada pencerobohan tentera.",
+        correctType: "primer",
+        correctMethod: "lisan",
+        typeExplanation: "Keterangan langsung lisan daripada individu yang terlibat secara peribadi dalam peristiwa perang berkenaan.",
+        methodExplanation: "Penyelidik menggunakan kaedah lisan (temu bual, rakaman dan transkripsi audio).",
+        questionCheck: "Adakah veteran ini seorang saksi mata langsung atau beliau menyampaikan semula cerita yang didengar daripada rakan sepasukan?"
+      },
+      {
+        id: 4,
+        title: "Dokumen Rasmi Surat Perjanjian Pangkor",
+        date: "20 Januari 1874",
+        found: "Pusat Rekod Kolonial / Arkib Negara",
+        description: "Surat perjanjian bertulis yang ditandatangani di atas kapal HMS Pluto di Pulau Pangkor antara Raja Abdullah, pembesar Perak, dan Sir Andrew Clarke yang memulakan sistem Residen British.",
+        correctType: "primer",
+        correctMethod: "bertulis",
+        typeExplanation: "Dokumen rasmi asal yang mengandungi tandatangan dan meterai pihak-pihak yang terlibat dalam perjanjian politik tersebut.",
+        methodExplanation: "Dianalisis melalui kaedah bertulis (semakan klausa fasal perjanjian dan warta pentadbiran kolonial).",
+        questionCheck: "Apakah motif utama British memperkenalkan fasal pelantikan Residen dan bagaimanakah perjanjian ini mempengaruhi kedaulatan tempatan?"
+      },
+      {
+        id: 5,
+        title: "Lakaran Merah Hematit di Dinding Gua Tambun",
+        date: "Zaman Neolitik / Logam (Kira-kira 2,500 – 4,000 Tahun)",
+        found: "Gua Tambun, Ipoh, Perak",
+        description: "Lukisan dinding purba menggunakan pigmen oksida besi merah yang menggambarkan figura manusia menari, binatang buruan seperti dugong/rusa, dan simbol flora.",
+        correctType: "primer",
+        correctMethod: "bertulis",
+        typeExplanation: "Tinggalan seni lakaran asal yang dihasilkan oleh komuniti manusia purba di dinding gua.",
+        methodExplanation: "Walaupun berada di tapak arkeologi, proses mentafsir makna simbol, lukisan, dan motif visual tergolong dalam kaedah bertulis (kajian lakaran & ikonografi).",
+        questionCheck: "Apakah bahan pewarna yang digunakan untuk menghasilkan lakaran ini dan apakah mesej kehidupan harian yang cuba disampaikan?"
+      },
+      {
+        id: 6,
+        title: "Buku Ensiklopedia Sejarah Kemerdekaan Malaysia",
+        date: "Tahun Penerbitan 2021",
+        found: "Perpustakaan Awam / Kedai Buku",
+        description: "Karya setebal 400 halaman yang ditulis oleh sekumpulan pensyarah universiti dengan menghimpunkan tafsiran dokumen, biografi tokoh, dan kronologi rundingan London.",
+        correctType: "sekunder",
+        correctMethod: "bertulis",
+        typeExplanation: "Buku ini bukan bahan asal zaman merdeka, melainkan sebuah penulisan yang diolah daripada pelbagai dokumen primer oleh sejarawan masa kini.",
+        methodExplanation: "Diselidiki dan dibaca melalui kaedah bertulis untuk mendapatkan ringkasan pemahaman sejarah.",
+        questionCheck: "Apakah senarai dokumen primer yang dirujuk oleh penulis buku ini dan sejauh manakah tafsiran beliau disokong bukti kukuh?"
+      }
+    ];
+
+    // 3. GLOSSARY DATA (11 Teras Istilah)
+    const glossaryData = [
+      {
+        term: "Sumber Sejarah",
+        category: "sumber",
+        categoryLabel: "Asas Sumber",
+        definition: "Bahan atau rekod yang memberikan maklumat tepat tentang kehidupan manusia, kejadian, tempat, dan perkembangan masyarakat pada masa lalu."
+      },
+      {
+        term: "Sumber Primer",
+        category: "sumber",
+        categoryLabel: "Jenis Sumber",
+        definition: "Sumber pertama yang berada dalam bentuk asal dan belum pernah diolah atau disunting. Contohnya fosil, manuskrip tulisan tangan, artifak ciptaan manusia, dan dokumen rasmi."
+      },
+      {
+        term: "Sumber Sekunder",
+        category: "sumber",
+        categoryLabel: "Jenis Sumber",
+        definition: "Penulisan atau karya ilmiah yang dihasilkan berpandukan maklumat daripada sumber asal. Contohnya buku rujukan sejarah, artikel majalah, risalah, dan akhbar."
+      },
+      {
+        term: "Artifak",
+        category: "sumber",
+        categoryLabel: "Tinggalan",
+        definition: "Barang atau peralatan hasil ciptaan tangan manusia lampau yang ditinggalkan sebagai bukti sejarah (contoh: alat batu, senjata, syiling, dan tembikar)."
+      },
+      {
+        term: "Manuskrip",
+        category: "sumber",
+        categoryLabel: "Dokumen",
+        definition: "Naskhah dokumen, karya sastera, atau catatan perundangan yang ditulis atau disalin sepenuhnya dengan menggunakan tangan pada zaman lampau."
+      },
+      {
+        term: "Ekskavasi",
+        category: "kaedah",
+        categoryLabel: "Arkeologi",
+        definition: "Kerja penggalian atau gali cari saintifik secara tersusun dan berhati-hati untuk membongkar serta merekodkan bahan tinggalan sejarah di bawah permukaan tanah atau dasar air."
+      },
+      {
+        term: "Orang Sumber",
+        category: "kaedah",
+        categoryLabel: "Lisan",
+        definition: "Individu yang ditemu bual untuk mendapatkan maklumat sejarah. Terdiri daripada mereka yang terlibat dalam peristiwa, melihat peristiwa berlaku (saksi), atau mendengar kisah daripada orang terdahulu."
+      },
+      {
+        term: "Kaedah Lisan",
+        category: "kaedah",
+        categoryLabel: "Metodologi",
+        definition: "Proses mendapatkan fakta sejarah secara langsung melalui sesi temu bual, rakaman suara atau video, serta transkripsi catatan bersama orang sumber."
+      },
+      {
+        term: "Kaedah Bertulis",
+        category: "kaedah",
+        categoryLabel: "Metodologi",
+        definition: "Kaedah memperoleh maklumat daripada tulisan dan lakaran yang terdapat pada dinding gua, batu bersurat, kayu, manuskrip, dan bahan bercetak."
+      },
+      {
+        term: "Pemeliharaan",
+        category: "pemeliharaan",
+        categoryLabel: "Warisan",
+        definition: "Usaha menjaga, melindungi, dan mengekalkan bahan atau rekod sejarah secara fizikal dan undang-undang supaya tidak mengalami kerosakan, hilang, atau pupus."
+      },
+      {
+        term: "Pendigitalan",
+        category: "pemeliharaan",
+        categoryLabel: "Teknologi",
+        definition: "Proses menukar bahan analog (dokumen kertas, gambar lama, pita audio) kepada format data digital bagi memudahkan rujukan awam serta keselamatan arkib sandaran."
+      }
+    ];
+
+    // 4. QUIZ QUESTIONS DATA (10 Soalan Nota)
+    const quizData = [
+      {
+        id: 1,
+        question: "1. Apakah takrifan paling tepat bagi maksud sumber sejarah?",
+        options: [
+          { text: "A. Cerita khayalan masyarakat yang ditokok tambah mengikut zaman.", correct: false },
+          { text: "B. Bahan atau rekod yang memberikan maklumat tentang sesuatu peristiwa masa lalu.", correct: true },
+          { text: "C. Pendapat peribadi individu tanpa sebarang sokongan bukti fizikal.", correct: false },
+          { text: "D. Semua buku fiksyen yang diterbitkan oleh perpustakaan awam.", correct: false }
+        ],
+        explanation: "Sumber sejarah ialah bahan atau rekod yang meninggalkan maklumat dan bukti nyata tentang kejadian masa lalu manusia."
+      },
+      {
+        id: 2,
+        question: "2. Menurut buku teks Sejarah Tahun 4, sumber sejarah terbahagi kepada dua jenis iaitu...",
+        options: [
+          { text: "A. Sumber primer dan sumber sekunder.", correct: true },
+          { text: "B. Sumber sahih dan sumber dongeng.", correct: false },
+          { text: "C. Sumber lisan dan sumber bertulis.", correct: false },
+          { text: "D. Sumber kuno dan sumber moden.", correct: false }
+        ],
+        explanation: "Dua klasifikasi asas sumber sejarah mengikut sukatan KSSR ialah Sumber Primer (sumber pertama) dan Sumber Sekunder (sumber kedua)."
+      },
+      {
+        id: 3,
+        question: "3. Antara berikut, yang manakah merupakan empat contoh sumber primer seperti yang disenaraikan dalam buku teks?",
+        options: [
+          { text: "A. Buku teks, risalah pelancongan, majalah, dan ensiklopedia.", correct: false },
+          { text: "B. Fosil, manuskrip tulisan tangan, dokumen rasmi, dan artifak.", correct: true },
+          { text: "C. Akhbar harian, televisyen, radio, dan internet.", correct: false },
+          { text: "D. Peta geografi, kamus dewan, novel sejarah, dan komik.", correct: false }
+        ],
+        explanation: "Buku teks Tahun 4 (halaman 6) menetapkan empat contoh utama sumber primer: fosil, manuskrip, dokumen rasmi, dan artifak."
+      },
+      {
+        id: 4,
+        question: "4. Apakah perbezaan pokok antara sumber primer dengan sumber sekunder?",
+        options: [
+          { text: "A. Sumber primer berbentuk digital, manakala sumber sekunder berbentuk kertas.", correct: false },
+          { text: "B. Sumber primer hanya wujud di luar negara, manakala sumber sekunder ada di Malaysia.", correct: false },
+          { text: "C. Sumber primer berada dalam bentuk asal dan belum diolah, manakala sumber sekunder ialah penulisan berasaskan sumber asal.", correct: true },
+          { text: "D. Sumber primer sentiasa mengandungi kesilapan, manakala sumber sekunder seratus peratus tepat.", correct: false }
+        ],
+        explanation: "Sumber primer ialah bahan asli yang belum disentuh atau ditafsir pihak ketiga, manakala sumber sekunder merupakan hasil kajian atau tulisan yang menggunakan sumber primer."
+      },
+      {
+        id: 5,
+        question: "5. Apakah tiga kaedah penyelidikan yang digunakan untuk mendapatkan bukti peristiwa sejarah?",
+        options: [
+          { text: "A. Kaedah arkib, kaedah makmal, dan kaedah hipotesis.", correct: false },
+          { text: "B. Kaedah arkeologi, kaedah lisan, dan kaedah bertulis.", correct: true },
+          { text: "C. Kaedah hafalan, kaedah bacaan, dan kaedah lukisan.", correct: false },
+          { text: "D. Kaedah soal selidik, kaedah undian, dan kaedah statistik.", correct: false }
+        ],
+        explanation: "Tiga kaedah rasmi sukatan Sejarah Tahun 4 ialah: 1. Kaedah Arkeologi, 2. Kaedah Lisan (sumber lisan), dan 3. Kaedah Bertulis."
+      },
+      {
+        id: 6,
+        question: "6. Apakah yang dimaksudkan dengan kaedah arkeologi?",
+        options: [
+          { text: "A. Proses menemu bual penduduk kampung mengenai mitos setempat.", correct: false },
+          { text: "B. Proses mendapatkan maklumat daripada bahan tinggalan sejarah melalui gali cari atau ekskavasi.", correct: true },
+          { text: "C. Membaca akhbar lama di perpustakaan awam secara berkumpulan.", correct: false },
+          { text: "D. Menulis esei fiksyen mengenai kehidupan zaman prasejarah.", correct: false }
+        ],
+        explanation: "Kaedah arkeologi melibatkan aktiviti gali cari saintifik (ekskavasi) ke atas tinggalan kebendaan seperti fosil, tembikar, barangan logam, dan binaan batu."
+      },
+      {
+        id: 7,
+        question: "7. Susun mengikut urutan tiga langkah dalam pelaksanaan kaedah lisan:",
+        options: [
+          { text: "A. Menyalin rakaman → Merangka soalan → Menemu bual orang sumber.", correct: false },
+          { text: "B. Menemu bual dan merakam → Menyimpan data → Memilih orang sumber.", correct: false },
+          { text: "C. Pertama: Kenal pasti orang sumber & sedia soalan → Kedua: Menemu bual & merakam → Ketiga: Menyalin rakaman (transkripsi) & simpan data.", correct: true },
+          { text: "D. Mengedit rakaman sesuka hati → Menerbitkan buku → Bertemu orang sumber.", correct: false }
+        ],
+        explanation: "Tiga langkah tertib kaedah lisan: 1. Kenal pasti orang sumber & sedia soalan, 2. Menemu bual & merakam, 3. Menyalin rakaman serta menyimpan data."
+      },
+      {
+        id: 8,
+        question: "8. Apakah contoh bahan yang boleh dikaji menerusi kaedah bertulis?",
+        options: [
+          { text: "A. Lukisan dinding gua, prasasti pada batu/kayu, manuskrip, dan bahan bercetak.", correct: true },
+          { text: "B. Suara nyanyian rakyat dan cerita lisan penglipur lara.", correct: false },
+          { text: "C. Rangka tulang haiwan dan serpihan cengkerang siput laut.", correct: false },
+          { text: "D. Struktur relau leburan besi di bawah tanah tanpa sebarang tulisan.", correct: false }
+        ],
+        explanation: "Kaedah bertulis merangkumi sebarang catatan aksara dan lakaran pada dinding gua (contoh Gua Tambun), kayu, batu bersurat, manuskrip, dan buku bercetak."
+      },
+      {
+        id: 9,
+        question: "9. Antara berikut, yang manakah merupakan kepentingan memelihara sumber sejarah?",
+        options: [
+          { text: "A. Mengekalkan bukti sejarah yang sahih dan menjadi rujukan penyelidikan.", correct: true },
+          { text: "B. Membolehkan artifak dijual kepada pihak luar untuk keuntungan segera.", correct: false },
+          { text: "C. Menggantikan semua bangunan lama dengan pusat beli-belah moden.", correct: false },
+          { text: "D. Memadamkan catatan sejarah yang sukar difahami murid.", correct: false }
+        ],
+        explanation: "Pemeliharaan sumber memastikan bukti asal tidak musnah, menyokong rujukan penyelidikan, memupuk identiti bangsa, dan mendidik generasi masa hadapan."
+      },
+      {
+        id: 10,
+        question: "10. Apakah langkah-langkah praktikal untuk memelihara bahan sejarah daripada rosak?",
+        options: [
+          { text: "A. Menyimpan bahan di tempat lembap dan membiarkan terdedah kepada cahaya matahari.", correct: false },
+          { text: "B. Melupuskan semua manuskrip lama sebaik sahaja ia berjaya diimbas ke dalam komputer.", correct: false },
+          { text: "C. Penyimpanan bilik terkawal, pemuliharaan oleh pakar, pendigitalan, dan perlindungan undang-undang (Akta 645).", correct: true },
+          { text: "D. Memberi kebenaran kepada orang awam mengambil batu bersurat untuk disimpan di rumah.", correct: false }
+        ],
+        explanation: "Langkah saintifik merangkumi kawalan suhu dan kelembapan, konservasi berkemahiran, pendigitalan arkib, dan penguatkuasaan Akta Warisan Kebangsaan 2005."
+      }
+    ];
+
+    // 5. OFFICIAL SCHEME CARDS DATA
+    const schemeData = [
+      { q: "1. Apakah maksud sumber sejarah?", a: "Bahan atau rekod yang memberikan maklumat tepat tentang peristiwa atau kejadian yang telah berlaku pada masa lalu." },
+      { q: "2. Nyatakan dua jenis sumber sejarah.", a: "Sumber primer (sumber pertama) dan sumber sekunder (sumber kedua)." },
+      { q: "3. Berikan empat contoh sumber primer seperti yang dinyatakan dalam buku teks.", a: "Fosil, manuskrip, dokumen rasmi, dan artifak." },
+      { q: "4. Apakah perbezaan sumber primer dengan sumber sekunder?", a: "Sumber primer berada dalam bentuk asal dan belum diolah; manakala sumber sekunder ialah penulisan yang dihasilkan daripada sumber asal." },
+      { q: "5. Nyatakan tiga kaedah penyelidikan sejarah.", a: "Kaedah arkeologi, kaedah lisan (sumber lisan), dan kaedah bertulis." },
+      { q: "6. Apakah yang dimaksudkan dengan kaedah arkeologi?", a: "Proses mendapatkan maklumat daripada bahan tinggalan sejarah melalui kerja gali cari atau ekskavasi saintifik." },
+      { q: "7. Nyatakan tiga langkah kaedah lisan.", a: "Langkah 1: Mengenal pasti orang sumber dan menyediakan soalan; Langkah 2: Menemu bual dan merakam perbualan; Langkah 3: Menyalin rakaman (transkripsi) dan menyimpan data." },
+      { q: "8. Apakah bahan yang boleh dikaji melalui kaedah bertulis?", a: "Tulisan dan lakaran pada dinding gua, kepingan kayu, batu bersurat, manuskrip tulisan tangan, serta bahan bercetak." },
+      { q: "9. Berikan empat kepentingan memelihara sumber sejarah.", a: "1. Mengekalkan bukti sejarah yang sahih, 2. Menjadi bahan rujukan penyelidikan, 3. Mengekalkan identiti dan warisan bangsa, 4. Menjadi bahan pendidikan generasi akan datang." },
+      { q: "10. Nyatakan tiga langkah yang boleh dilakukan untuk memelihara sumber sejarah.", a: "1. Penyimpanan yang sesuai dalam persekitaran terkawal, 2. Pemuliharaan dan pembaikan oleh petugas berkemahiran, 3. Pendigitalan dan salinan sandaran, serta perlindungan melalui Akta Warisan Kebangsaan 2005." }
+    ];
+
+    // FUNCTION: SWITCH METHOD TABS (Subtopik 2)
+    function switchMethodTab(tabId) {
+      AppData.activeTab = tabId;
+      const tabs = ['arkeologi', 'lisan', 'bertulis'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn-${t}`);
+        const panel = document.getElementById(`methodPanel-${t}`);
+        if (btn && panel) {
+          if (t === tabId) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            panel.style.display = 'block';
+          } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+            panel.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // FUNCTION: SHOW SCENARIO (Simulator)
+    function showScenario(scenarioId) {
+      AppData.activeScenario = scenarioId;
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`scenarioBtn-${i}`);
+        if (btn) {
+          if (i === scenarioId) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      }
+
+      const item = scenariosData.find(s => s.id === scenarioId) || scenariosData[0];
+      const container = document.getElementById('scenarioResult');
+      if (container) {
+        container.innerHTML = `
+          <div class="figure-label">Analisis Soalan Kajian</div>
+          <h4 style="margin: var(--space-xs) 0; font-family: var(--font-headline); font-size: 1.25rem;">
+            "${item.title}"
+          </h4>
+          <div style="margin: var(--space-sm) 0; padding: var(--space-xs) 0; border-top: var(--rule-column); border-bottom: var(--rule-column);">
+            <div style="font-size: 0.95rem; margin-bottom: var(--space-xs);">
+              <strong>Kaedah Penyelidikan Disyorkan:</strong> <span class="tag tag-claret">${item.method}</span>
+            </div>
+            <div style="font-size: 0.95rem;">
+              <strong>Bahan & Bukti Sokongan:</strong> ${item.sources}
+            </div>
+          </div>
+          <div style="font-size: 0.95rem; line-height: 1.5;">
+            <strong>Rasional Pemilihan:</strong> ${item.explanation}
+          </div>
+        `;
+      }
+    }
+
+    // FUNCTION: SELECT ARTIFACT (Makmal Penyiasat)
+    function selectArtifact(artId) {
+      AppData.activeArtifact = artId;
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.getElementById(`artBtn-${i}`);
+        if (btn) {
+          if (i === artId) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      }
+
+      const art = artifactsData.find(a => a.id === artId) || artifactsData[0];
+      const view = document.getElementById('artifactDetailsView');
+      if (view) {
+        view.innerHTML = `
+          <div class="grid-2col">
+            <div>
+              <div class="tag">Koleksi Arkib #${art.id}</div>
+              <h3 style="margin: var(--space-xs) 0; font-size: 1.4rem;">${art.title}</h3>
+              <div style="font-family: var(--font-label); font-size: var(--label-size); color: var(--on-surface-variant); text-transform: uppercase; margin-bottom: var(--space-sm);">
+                <span>Anggaran Tarikh: ${art.date}</span> • <span>Lokasi: ${art.found}</span>
+              </div>
+              <p style="font-size: 0.95rem;">
+                ${art.description}
+              </p>
+              <div class="archival-box" style="margin-top: var(--space-md);">
+                <div class="figure-label">Soalan Analisis Siasatan:</div>
+                <p style="font-size: 0.92rem; font-style: italic; margin: 0;">
+                  "${art.questionCheck}"
+                </p>
+              </div>
+            </div>
+
+            <div class="editorial-col">
+              <div class="archival-box-focus">
+                <div class="figure-label">Borang Pengelasan Penyiasat:</div>
+                <p style="font-size: 0.9rem; margin-bottom: var(--space-sm);">
+                  Sila pilih klasifikasi yang tepat untuk bahan ini:
+                </p>
+                
+                <div class="form-group">
+                  <label class="field-label">1. Kategori Sumber:</label>
+                  <select id="labSelectType">
+                    <option value="">-- Pilih Jenis Sumber --</option>
+                    <option value="primer">Sumber Primer (Sumber Pertama)</option>
+                    <option value="sekunder">Sumber Sekunder (Sumber Kedua)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="field-label">2. Kaedah Kajian Utama:</label>
+                  <select id="labSelectMethod">
+                    <option value="">-- Pilih Kaedah Utama --</option>
+                    <option value="arkeologi">Kaedah Arkeologi</option>
+                    <option value="lisan">Kaedah Lisan</option>
+                    <option value="bertulis">Kaedah Bertulis</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%;" onclick="verifyLabClassification(${art.id})">
+                  Semak Klasifikasi Bahan
+                </button>
+
+                <div id="labFeedbackBox" style="margin-top: var(--space-md); display: none;"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // FUNCTION: VERIFY LAB CLASSIFICATION
+    function verifyLabClassification(artId) {
+      const art = artifactsData.find(a => a.id === artId);
+      if (!art) return;
+
+      const userType = document.getElementById('labSelectType').value;
+      const userMethod = document.getElementById('labSelectMethod').value;
+      const feedback = document.getElementById('labFeedbackBox');
+
+      if (!userType || !userMethod) {
+        feedback.style.display = 'block';
+        feedback.innerHTML = `
+          <div style="border-left: 3px solid var(--warning); padding: var(--space-xs) var(--space-sm); background-color: var(--background);">
+            <strong style="color: var(--warning);">Perhatian:</strong> Sila buat pilihan bagi kedua-dua kategori sumber dan kaedah sebelum menekan butang semakan.
+          </div>
+        `;
+        return;
+      }
+
+      const isTypeCorrect = userType === art.correctType;
+      const isMethodCorrect = userMethod === art.correctMethod;
+
+      feedback.style.display = 'block';
+      if (isTypeCorrect && isMethodCorrect) {
+        feedback.innerHTML = `
+          <div style="border-left: 4px solid var(--positive); padding: var(--space-sm); background-color: var(--background);">
+            <div style="font-family: var(--font-headline); font-weight: 700; color: var(--positive); margin-bottom: var(--space-xs);">
+              Tahniah! Klasifikasi Tepat & Sahih
+            </div>
+            <p style="font-size: 0.9rem; margin-bottom: var(--space-xs);">
+              <strong>Sebab Jenis Sumber:</strong> ${art.typeExplanation}
+            </p>
+            <p style="font-size: 0.9rem; margin: 0;">
+              <strong>Sebab Kaedah:</strong> ${art.methodExplanation}
+            </p>
+          </div>
+        `;
+      } else {
+        feedback.innerHTML = `
+          <div style="border-left: 4px solid var(--error); padding: var(--space-sm); background-color: var(--background);">
+            <div style="font-family: var(--font-headline); font-weight: 700; color: var(--error); margin-bottom: var(--space-xs);">
+              Klasifikasi Kurang Tepat
+            </div>
+            <p style="font-size: 0.9rem; margin-bottom: var(--space-xs);">
+              <strong>Jawapan Betul:</strong> Jenis <em>${art.correctType === 'primer' ? 'Sumber Primer' : 'Sumber Sekunder'}</em> melalui <em>Kaedah ${art.correctMethod.toUpperCase()}</em>.
+            </p>
+            <p style="font-size: 0.88rem; margin: 0;">
+              ${art.typeExplanation} ${art.methodExplanation}
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    // FUNCTION: RENDER GLOSSARY
+    function renderGlossary() {
+      const tbody = document.getElementById('glossaryTbody');
+      if (!tbody) return;
+
+      const filtered = glossaryData.filter(item => {
+        const matchesCategory = (AppData.glossaryFilter === 'semua' || item.category === AppData.glossaryFilter);
+        const query = AppData.glossaryQuery.toLowerCase().trim();
+        const matchesQuery = query === '' || 
+          item.term.toLowerCase().includes(query) || 
+          item.definition.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="3" style="text-align: center; padding: var(--space-lg); color: var(--on-surface-variant);">
+              Tiada istilah ditemui bagi carian "${AppData.glossaryQuery}". Sila cuba kata kunci lain.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => `
+        <tr>
+          <td><strong>${item.term}</strong></td>
+          <td><span class="tag">${item.categoryLabel}</span></td>
+          <td>${item.definition}</td>
+        </tr>
+      `).join('');
+    }
+
+    function filterGlossary() {
+      const input = document.getElementById('glossarySearch');
+      AppData.glossaryQuery = input ? input.value : '';
+      renderGlossary();
+    }
+
+    function filterGlossaryCategory(cat) {
+      AppData.glossaryFilter = cat;
+      const categories = ['semua', 'sumber', 'kaedah', 'pemeliharaan'];
+      categories.forEach(c => {
+        const btn = document.getElementById(`catBtn-${c}`);
+        if (btn) {
+          if (c === cat) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      });
+      renderGlossary();
+    }
+
+    // FUNCTION: RENDER QUIZ
+    function renderQuiz() {
+      const container = document.getElementById('quizQuestionsList');
+      if (!container) return;
+
+      container.innerHTML = quizData.map((q, idx) => `
+        <div class="quiz-card" id="quizCard-${q.id}">
+          <div class="quiz-question">${q.question}</div>
+          <div class="quiz-options">
+            ${q.options.map((opt, oIdx) => `
+              <button 
+                class="quiz-opt-btn" 
+                id="qOptBtn-${q.id}-${oIdx}" 
+                onclick="handleQuizAnswer(${q.id}, ${oIdx})"
+              >
+                ${opt.text}
+              </button>
+            `).join('')}
+          </div>
+          <div class="quiz-explanation" id="quizExpl-${q.id}">
+            <strong>Penerangan Sejarah:</strong> ${q.explanation}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // FUNCTION: HANDLE QUIZ ANSWER
+    function handleQuizAnswer(qId, selectedOptionIdx) {
+      if (AppData.quizAnswers[qId] !== undefined) {
+        return; // already answered
+      }
+
+      AppData.quizAnswers[qId] = selectedOptionIdx;
+      const question = quizData.find(q => q.id === qId);
+      if (!question) return;
+
+      const selectedOpt = question.options[selectedOptionIdx];
+      const isCorrect = selectedOpt.correct;
+
+      if (isCorrect) {
+        AppData.quizScore += 1;
+      }
+
+      // Update score display
+      const scoreText = document.getElementById('quizScoreText');
+      if (scoreText) {
+        scoreText.textContent = AppData.quizScore;
+      }
+
+      // Update option button styles
+      question.options.forEach((opt, idx) => {
+        const btn = document.getElementById(`qOptBtn-${qId}-${idx}`);
+        if (btn) {
+          btn.disabled = true;
+          if (opt.correct) {
+            btn.classList.add('correct');
+          } else if (idx === selectedOptionIdx && !isCorrect) {
+            btn.classList.add('incorrect');
+          }
+        }
+      });
+
+      // Show explanation
+      const expl = document.getElementById(`quizExpl-${qId}`);
+      if (expl) {
+        expl.style.display = 'block';
+      }
+    }
+
+    // FUNCTION: RESET QUIZ
+    function resetQuiz() {
+      AppData.quizAnswers = {};
+      AppData.quizScore = 0;
+      const scoreText = document.getElementById('quizScoreText');
+      if (scoreText) {
+        scoreText.textContent = '0';
+      }
+      renderQuiz();
+    }
+
+    // FUNCTION: RENDER SCHEME CARDS
+    function renderSchemeCards() {
+      const container = document.getElementById('schemeCardsList');
+      if (!container) return;
+
+      container.innerHTML = schemeData.map(item => `
+        <details class="archive-card">
+          <summary class="archive-summary">
+            <span>${item.q}</span>
+            <span class="summary-icon">+</span>
+          </summary>
+          <div style="padding: var(--space-sm) 0; font-size: 0.98rem; line-height: 1.5;">
+            <strong>Cadangan Jawapan Rasmi:</strong> ${item.a}
+          </div>
+        </details>
+      `).join('');
+    }
+
+    // FUNCTION: SET EVALUATION MODE (Quiz vs Scheme)
+    function setEvaluationMode(mode) {
+      AppData.evalMode = mode;
+      const quizView = document.getElementById('quizContainerView');
+      const schemeView = document.getElementById('schemeContainerView');
+      const btnQuiz = document.getElementById('btnModeQuiz');
+      const btnScheme = document.getElementById('btnModeScheme');
+
+      if (mode === 'quiz') {
+        if (quizView) quizView.style.display = 'block';
+        if (schemeView) schemeView.style.display = 'none';
+        if (btnQuiz) {
+          btnQuiz.classList.add('btn-primary');
+          btnQuiz.classList.remove('btn-secondary');
+        }
+        if (btnScheme) {
+          btnScheme.classList.add('btn-secondary');
+          btnScheme.classList.remove('btn-primary');
+        }
+      } else {
+        if (quizView) quizView.style.display = 'none';
+        if (schemeView) schemeView.style.display = 'block';
+        if (btnQuiz) {
+          btnQuiz.classList.add('btn-secondary');
+          btnQuiz.classList.remove('btn-primary');
+        }
+        if (btnScheme) {
+          btnScheme.classList.add('btn-primary');
+          btnScheme.classList.remove('btn-secondary');
+        }
+      }
+    }
+
+    // INITIALIZATION ON DOM CONTENT LOADED
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize scenarios
+      showScenario(1);
+
+      // Initialize lab artifact
+      selectArtifact(1);
+
+      // Render glossary
+      renderGlossary();
+
+      // Render quiz
+      renderQuiz();
+
+      // Render scheme cards
+      renderSchemeCards();
+
+      // Initialize Lucide icons safely
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
